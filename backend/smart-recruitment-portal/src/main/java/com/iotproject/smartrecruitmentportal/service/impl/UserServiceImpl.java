@@ -1,5 +1,7 @@
 package com.iotproject.smartrecruitmentportal.service.impl;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +63,15 @@ public class UserServiceImpl implements UserService {
 
 		return userMapper.toResponse(savedUser);
 
+	}
+
+	@Override
+	public List<UserResponse> getAllUsers() {
+	
+		return userRepository.findAll()
+				.stream()
+				.map(userMapper::toResponse)
+				.toList();
 	}
 
 }

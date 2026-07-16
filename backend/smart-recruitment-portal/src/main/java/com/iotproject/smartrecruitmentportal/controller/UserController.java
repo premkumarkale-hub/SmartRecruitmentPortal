@@ -1,8 +1,11 @@
 package com.iotproject.smartrecruitmentportal.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +41,18 @@ public class UserController {
 						.data(response)
 						.build()
 				);
+	}
+	
+	@GetMapping
+	public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers(){
+		return ResponseEntity.ok(
+				ApiResponse.<List<UserResponse>>builder()
+				.success(true)
+				.message("Users fetched successfully")
+				.data(userService.getAllUsers())
+				.build()
+		);
+				
 	}
 }
 
