@@ -74,4 +74,61 @@ public class UserServiceImpl implements UserService {
 				.toList();
 	}
 
+	@Override
+	public UserResponse getUserById(Long id) {
+		User user = userRepository.findById(id)
+					.orElseThrow(() ->
+							new ResourceNotFoundException("User not found with id : " + id));
+		
+		return userMapper.toResponse(user);
+	}
+
+	@Override
+	public void deleteUser(Long id, String loggedInUserEmail) {
+		
+		User user = userRepository.findById(id)
+				.orElseThrow(() ->
+						new ResourceNotFoundException("User not found with id : " + id));
+		
+		User loggedInUser = userRepository.findByEmail(loggedInUserEmail)
+				.orElseThrow(() -> 
+						new ResourceNotFoundException("Logged in user not found"));
+				
+		if(loggedInUser.getId().equals(id)) {
+			throw new IllegalArgumentException("You cannot delete your own account.");
+		}
+		
+		if ("ADMIN".equals(user.getRole().getName())) {
+			long adminCount = userRepository.countByRole_Name("ADMIN");
+			
+			if(adminCount == 1) {
+				throw new IllegalArgumentException("Cannot delete the last administrator.");
+			}
+		}
+		
+		userRepository.delete(user);
+	} 
+
+	@Override
+	public UserResponse updateUser(Long id,UserRegistrationRequest request) {
+		
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> 
+					new ResourceNotFoundException("User not found with id : " + id));
+		
+		Role role = roleRepository.findByName(request.getRole())
+		        .orElseThrow(() ->
+		                new ResourceNotFoundException("Role not found: " + request.getRole()));
+		
+		user.setFullName(request.getFullName());
+		user.setEmail(request.getEmail());
+		user.setPassword(passwordEncoder.encode(request.getPassword()));
+		user.setPhone(request.getPhone());
+		user.setRole(role);
+
+		User updateUser = userRepository.save(user);
+		
+		return userMapper.toResponse(updateUser);
+	}
+
 }

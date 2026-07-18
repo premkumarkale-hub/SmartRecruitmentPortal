@@ -8,5 +8,11 @@ public interface UserService {
 	UserResponse registerUser(UserRegistrationRequest request);
 
 	List<UserResponse> getAllUsers();
+
+	UserResponse getUserById(Long id);
+
+	void deleteUser(Long id, String loggedInUserEmail);
+
+	UserResponse updateUser(Long id, UserRegistrationRequest request);
 }
 
