@@ -1,4 +1,12 @@
 package com.iotproject.smartrecruitmentportal.controller;
+/*
+ * API's
+ * POST : http:localhost:9090/api/users/register  -----> Register new user
+ * GET : http:localhost:9090/api/users/		   	  -----> Get all users
+ * GET : http:localhost:9090/api/users/{id}	      -----> Get users by id
+ * DELETE : http:localhost:9090/api/users/{id}	  -----> Delete user by id
+ * PUT : http:localhost:9090/api/users/{id}	  	  -----> Update user by id
+ * */
 
 import java.util.List;
 
@@ -106,41 +114,6 @@ public class UserController {
 				.data(response)
 				.build());
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
 

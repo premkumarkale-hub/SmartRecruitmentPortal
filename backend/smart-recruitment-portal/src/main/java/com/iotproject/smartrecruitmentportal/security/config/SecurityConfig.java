@@ -2,6 +2,7 @@ package com.iotproject.smartrecruitmentportal.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,9 +33,26 @@ public class SecurityConfig {
 					Session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			
 			.authorizeHttpRequests(auth -> auth
+					
+					// Public Endpoints
 					.requestMatchers("/api/auth/**",
 									 "/api/users/register"
-					).permitAll()
+					)
+					.permitAll()
+					
+					// Company Module
+					.requestMatchers(HttpMethod.POST, "/api/companies/**")
+						.hasRole("ADMIN")
+						
+					.requestMatchers(HttpMethod.PUT, "/api/companies/**")
+						.hasRole("ADMIN")
+						
+					.requestMatchers( HttpMethod.DELETE, "/api/companies/**")
+						.hasRole("ADMIN")
+						
+					.requestMatchers(HttpMethod.GET, "/api/companies/**")
+						.hasAnyRole("ADMIN", "CANDIDATE", "RECRUITER")
+									 
 					.anyRequest().authenticated()
 			)
 			.exceptionHandling(exception -> 
