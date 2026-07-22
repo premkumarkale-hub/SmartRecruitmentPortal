@@ -2,7 +2,7 @@ package com.iotproject.smartrecruitmentportal.controller;
 
 /*
  * API's
- * POST : http:localhost:9090/api/companies/create 	  -----> Create new company
+ * POST : http:localhost:9090/api/companies			  -----> Create new company
  * GET : http:localhost:9090/api/companies		   	  -----> Get all companies
  * GET : http:localhost:9090/api/companies/{id}	      -----> Get company by id
  * DELETE : http:localhost:9090/api/companies/{id}	  -----> Delete company by id
